@@ -1,0 +1,54 @@
+classDiagram 
+direction LR
+    class Cliente {
+        -id: int
+        -nome: String
+        -telefone: String
+        +adicionarPedido(pedido: Pedido): void
+        +removerPedido(pedido: Pedido): void
+        +listarPedidos(): List~Pedido~
+        +atualizarDados(novoNome: String, novoTelefone: String): void
+    }
+
+    class Pedido {
+        -id: int
+        -dataPedido: Date
+        -status: Status
+        -valorTotal: double
+        -cliente: Cliente
+        -itens: List~ItemPedido~
+        +adicionarItem(item: ItemPedido): void
+        +removerItem(item: ItemPedido): void
+        +calcularTotal(): double
+        +atualizarStatus(novoStatus: String): void
+    }
+
+    class Status {
+        <<enumeration>>
+        ENCAMINHADO
+        FAZENDO
+        PRONTO
+    }
+
+    class Cupcake {
+        -id: int
+        -nome: String
+        -preco: double
+        -disponivel: boolean
+        +atualizarPreco(novoPreco: double): void
+        +verificarDisponibilidade(): boolean
+    }
+
+    class ItemPedido {
+        -id: int
+        -quantidade: int
+        -subtotal: double
+        -cupcake: Cupcake
+        +calcularSubtotal(): double
+        +atualizarQuantidade(novaQuantidade: int): void
+    }
+
+    Cliente "1" -- "*" Pedido : faz
+    Pedido "1" -- "*" ItemPedido : contém
+    ItemPedido --|> Cupcake
+    Pedido --> Status
